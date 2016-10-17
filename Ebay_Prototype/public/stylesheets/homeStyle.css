@@ -1,0 +1,62 @@
+label{
+	padding-top: 10px;
+	padding-left: 10px;
+}
+#outside{
+	float: left;
+	outline: 2px solid #d9d9d9;
+	margin: 1%; 
+	border-radius: 20px;
+	max-width: 25%;
+	min-width: 10%;
+}
+
+#name{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 20px;
+	color: #ffffff;
+	background-color: #428bca;
+}
+
+#desc{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 15px;
+	color : #333333;
+	padding-left: 10px;
+}
+
+#ship{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 15px;
+	color : #333333;
+	padding-left: 10px;
+}
+
+
+#price{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 25px;
+	color : #333333;
+	padding-left: 10px;
+}
+
+#quantity{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 20px;
+	color : #333333;
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+
+#add{
+	width : 100%;
+}
+
+#bid{
+	width  :100%;
+}

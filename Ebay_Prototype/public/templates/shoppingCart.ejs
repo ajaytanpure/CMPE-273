@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/stylesheets/cartStyle.css">
+
+<div id="outer">
+	<div>
+		<label>{{cartMessage}}</label>
+	</div>
+	<div>
+		<div ng-repeat="(key, value) in shoppingCart">
+			<div ng-repeat="product in value"
+				style="outline: 2px solid #cccccc; margin: 1%; display: inline-block; width: 100%;">
+				<div style="float: left; width: 60%; margin: 1%;">
+					<div id="name">Name : {{product.name}}</div>
+					<div id="desc">Description : {{product.description}}</div>
+					<div>
+						<img src="/images/delete.png" height="20px" width="20px"
+							ng-click="removeProduct(product)">
+					</div>
+				</div>
+				<div style="float: right; width: 30%; margin: 1%;">
+					<div id="pricetag">Price</div>
+					<div id="price">$ {{product.price}}</div>
+				</div>
+			</div>
+			<div style="margin-left: 60%;">
+				<div id="total" style="float: left; margin: 1%;">Total Price :  $ {{totalValue}}</div>
+				<div style="float: right;  margin: 1%;"">
+					<button class="btn btn-primary" ng-click="checkOut()">Checkout</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="/stylesheets/profileStyle.css">
+
+<div>
+<div style="outline: 2px solid #cccccc; margin-left: 5%; margin-right: 5%;">
+		<div style="float: left; width: 40%; margin-left: 10%; padding: 20px;">
+			<div style="float: left; width: 30%; margin-left: 5%; padding: 20px;">
+				<img src="/images/profile.png" height="150px;" width="150px;">	
+			</div>
+			<div
+				style="float: right; width: 55%; margin-right: 5%;">
+				<div class="form-group">
+					<hr style="">
+					<label>Name : </label> <label>{{guestUserDetails['firstName']}} {{guestUserDetails['lastName']}}</label>
+				</div>
+				<div class="form-group">
+					<label>Email : </label> <label>{{guestUserDetails['email']}}</label>
+				</div>
+				<div class="form-group">
+					<label>Phone Number : </label> <label>{{guestUserDetails['mobile']}}</label>
+					<label ui-sref="updateMobile" style="margin-left: 10%;"><a>edit</a></label>
+				</div>
+				<div class="form-group">
+					<label>Birthdate : </label> <label>{{guestUserDetails['birthdate']}}</label>
+					<label ui-sref="updateBirthdate" style="margin-left: 10%;"><a>edit</a></label>
+				</div>
+			</div>
+		</div>
+</div>
+<div style="float: left; width: 40%; margin-right: 5%;"><br><br><br>
+			<div class="form-group">
+				<label>Location : </label>
+				<label>{{guestUserDetails['location']}}</label>
+				<label ui-sref="updateLocation" style="margin-left: 10%;"><a>edit</a></label>
+			</div>
+			<div>
+				<label>Last Login : </label>
+				<label>{{guestUserDetails['lastLogin']}}</label>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success" ng-click="viewBuyHistory()">Buy History</button>
+				<button type="submit" class="btn btn-primary" ng-click="viewSellHistory()" style="margin : 20px;">Sell History</button>
+			</div>
+</div>	
+</div>
+<div style="position: absolute; margin-top: 15%; margin-left: 5%; margin-right: 5%;">
+	<div ng-show="showBuyHistory" style="width: 100%;">
+		<div ng-repeat="item in itemBought"
+				style="outline: 2px solid #cccccc; margin: 1%; display: inline-block; width: 100%; background-color: #f2f2f2;">
+				<div style="float: left; width: 60%; margin: 1%;">
+					<div id="name">Name : {{item['name']}}</div>
+					<div id="desc">Description : {{item['description']}}</div>
+				</div>
+				<div style="float: right; width: 30%; margin: 1%;">
+					<div id="pricetag">Price</div>
+					<div ng-if="item['highestBid']" id="price">$ {{item['highestBid']}}</div>
+					<div ng-if="!item['highestBid']" id="price">$ {{item['price']}}</div>
+				</div>
+			</div>
+	</div>
+	<div ng-show="showSellHistory" style="width: 100%;">
+		<div ng-repeat="item in itemSold"
+				style="outline: 2px solid #cccccc; margin-top:1%;margin-bottom:1%; display: inline-block; width: 100%; background-color: #f2f2f2;">
+				<div style="float: left; width: 60%;">
+					<div id="name">Name : {{item['name']}}</div>
+					<div id="desc">Description : {{item['description']}}</div>
+				</div>
+				<div style="float: right; width: 30%; margin: 1%; margin-right: 5%;">
+					<div id="pricetag">Price</div>
+					<div ng-if="item['highestBid']" id="price">$ {{item['highestBid']}}</div>
+					<div ng-if="!item['highestBid']" id="price">$ {{item['price']}}</div>
+				</div>
+			</div>
+	</div>
+	
+</div>
+
+
+
+
+
+
+
+
+
+

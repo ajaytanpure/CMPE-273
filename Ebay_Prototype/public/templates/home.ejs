@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/stylesheets/homeStyle.css">
+
+<div ng-app="homePageApp" ng-controller="homeShowController" style="margin-left: 5%; margin-right: 5%">
+
+	<div style="display: inline;">
+		<div id="outside" ng-model="products" ng-repeat="product in products">
+			<div id="name"><label>{{product.name}}</label></div>
+			<div id="desc">{{product.description}}</div>
+			<div id="price">$ {{product.price}}</div>
+			<div id="quantity">Quantity : {{product.quantity}}</div>
+			<div id="ship">{{product.firstName}} {{product.lastName}} shipping from {{product.location}}</div>
+			<div ng-hide="product.bid"	id="add" class="btn btn-success" ng-click="addToCart(product); mapEvents(product)">Add to Cart</div>
+			<div ng-show=product.bid  id="bid" class="btn btn-info"  ng-click="startBid(product); mapEvents(product)" > Bid</div>
+		</div>
+	</div>
+</div>
+

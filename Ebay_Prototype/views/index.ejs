@@ -1,0 +1,60 @@
+<html>
+<head>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/scripts/home.js">
+	
+</script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script type="text/javascript" src="/scripts/home.js"></script>
+<script type="text/javascript" src="/scripts/signinController.js"></script>
+<script type="text/javascript" src="/scripts/registerController.js"></script>
+<script type="text/javascript" src="/scripts/sellController.js"></script>
+<script type="text/javascript" src="/scripts/cartController.js"></script>
+<script type="text/javascript" src="/scripts/profileController.js"></script>
+<script type="text/javascript" src="/scripts/payController.js"></script>
+<script type="text/javascript" src="/scripts/bidController.js"></script>
+<script type="text/javascript" src="/scripts/homeShow.js"></script>
+<style>
+li {
+	display: inline;
+}
+
+</style>
+
+</head>
+
+<body ng-app="homePageApp" ng-controller="homeController">
+	<div class="page-header" style="margin-left: 5%">
+		<ui> 
+			<header>
+				<div>
+					<li ng-hide="userDiv"  ng-click="hideIt()"><a ui-sref="userPage.signin">SignIn</a></li>
+					<li ng-hide="userDiv"  ng-click="hideIt()"><a ui-sref="userPage.register">Register</a></li>
+					<li><a ui-sref="profile">{{guest}}</a></li>
+					<li><a ui-sref="sell">sell</a><li>
+					<li><a ui-sref="shoppingCart"> Shopping Cart</li>
+					<li ng-show="logoutlink" ng-click="logout()" style="position: absolute; right: 10%;"><a>logout</a></li>
+				</div>
+			</header>
+		<hr>
+			<div ng-hide=userLogo>
+				<li><a ui-sref="home"><img src="/images/ebay_logo.png" style="width: 100px; height: 50px;"></a></li>
+			</div>
+		</ui>
+	</div>
+	<div id="lowerH">
+		<div ui-view></div>
+	</div>
+	</div>
+</body>
+</html>

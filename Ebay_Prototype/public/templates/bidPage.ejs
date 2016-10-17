@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/stylesheets/profileStyle.css">
+<div>
+<div style="outline: 2px solid #cccccc; margin-left: 5%; margin-right: 5%;">
+		<div style="float: left; width: 40%; margin-left: 10%; padding: 20px;">
+			<div
+				style="float: left; width: 100%; margin-right: 5%;">
+				<div class="form-group">
+					<hr style="">
+					<label>{{allInfo.name}}</label>
+				</div>
+				<div class="form-group">
+					<label>{{allInfo.description}}</label>
+				</div>
+				<div class="form-group">
+					<label>${{allInfo.price}}/{{allInfo.quantity}} quantity</label>
+				</div>
+				<div class="form-group">
+					<label>{{allInfo.firstName}} {{allInfo.lastName}}</label>
+				</div>
+				<div class="form-group">
+					<label>Shipping from {{allInfo.location}}</label>
+				</div>
+			</div>
+		</div>
+</div>
+<div style="float: left; width: 40%; margin-right: 5%;"><br><br><br>
+			<div class="form-group">
+				<label>Highest Bid : {{allInfo.highestBid}}</label>
+				<label>{{}} bids</label>
+			</div>
+			<div class="form-group">
+				<input type="number" step="any" placeholder="$" ng-model="bid.price"/>
+				<button type="submit" class="btn btn-primary" ng-click="palceBid(bid)" style="margin : 20px;">Place Bid</button>
+				<div>
+					<label>Enter ${{allInfo.highestBid}} or more</label>
+				<div>
+				<div class="alert alert-success" ng-show="finalMessage"><strong>Congratulations!! </strong>{{message}}</div>
+			</div> 
+</div>	
+</div>
+<div style="position: absolute; margin-top: 15%; margin-left: 5%; margin-right: 5%;">
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="/stylesheets/sellStyle.css">
+
+<div>
+	<form class="sellform" id="sellform">
+		<h3>Tell us what you are selling</h3>
+		<hr>
+		<div class="form-group">
+			<div ng-hide="category">
+				<div class="form-group">
+					<label>Give a title for your listing</label>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control"
+						placeholder="Title for your sell goes here" required="required"
+						ng-model="sell.title">
+				</div>
+				<div class="form-group">
+					<button type="submit" ng-click="createTitle(sell)"
+						class="btn btn-primary">Get Started</button>
+				</div>
+			</div>
+
+			<div ng-show="prodDetails">
+				<div class="prodDetails">
+					<div>
+						<label ng-model="categoryTitle" style="color: #000000;">{{categoryTitle}}</label>
+					</div>
+					<div class="form-group">
+						<label>Enter Category : </label>
+					</div>
+					<div class="form-group">
+						<select class="form-control" ng-model="sell.category">
+							<option ng-repeat="category in categories">{{category.cat_name}}</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label>Product Name :</label>
+						<input type="text" class="form-control" ng-model="sell.name"/>
+					</div>
+					
+					<div class="form-group">
+						<label> Product description : </label>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" rows="4" cols="50" maxlength="500"
+							name="description" form="sellform" required="required" ng-model="sell.description">Character limit 500</textarea>
+					</div>
+					<div class="form-group">
+						<label>Quantity : </label> <input type="number"
+							class="form-control" min="1" ng-model="sell.quantity"/>
+					</div>
+					<div class="form-group">
+						<table>
+							<tr>
+								<td><label>Bid</label></td>
+								<td>:</td>
+								<td><input type="checkbox" class="form-control" ng-model="sell.bid"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+					<table>
+							<tr>
+								<td><label>Price</label></td>
+								<td>:</td>
+								<td><input type="number" step="any" class="form-control" placeholder="$$$" required="required" min="0" ng-model="sell.price"/></td>
+							</tr>
+						</table>
+					</div>
+					
+					
+					<div class="form-group">
+						<button type="submit" class="btn btn-success" ng-click="sellProduct(sell)">SELL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+
