@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/stylesheets/userPageStyle.css">
+
+
+<div class="row">
+	<div class="col-md-3" style="float: none; margin: 0 auto;">
+		<div style="margin: 0 auto; text-align:center;">
+			<img class="logo" src="/images/ebay_logo.png" height="200px;"/>
+		</div>
+	</div>
+</div>
+<div class="row">
+
+	<div class="col-md-3" style="float: none; margin: 0 auto;" id="outline">
+		<ui class="nav nav-tabs container-fullwidth">
+		<div class="row" id="inneroutline">
+			<div class="col-md-6 buttonDiv" style="text-align: center">
+				<div id="buttons">
+					<li><a ui-sref=".signin" ui-sref-active="currentState" id="signinButton">SignIn</a></li>
+				</div>
+			</div>
+			<div class="col-md-6 buttonDiv" style="text-align: center">
+				<div id="buttons">
+					<li><a ui-sref=".register" id="registerButton">Register</a></li>
+				</div>
+			</div>
+		</div>
+		</ui>
+		<div class="tab-content">
+			<div ui-view></div>
+		</div>
+	</div>
+</div>
+

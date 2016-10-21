@@ -1,0 +1,14 @@
+label{
+	font-family: "Lucida Console", Times, serif;
+	font-style: normal;
+	font-size: 15px;
+	color: #808080;
+}
+
+.sellform{
+	margin-left : 5%;
+	margin-right: 5%;
+	margin-top : 1%;
+	padding : 30px;
+	outline : 2px solid #e6e6e6;
+}
