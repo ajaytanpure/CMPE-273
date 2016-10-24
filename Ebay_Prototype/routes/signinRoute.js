@@ -10,9 +10,7 @@ module.exports = function(passport) {
 				var params = {
 					email : username
 				};
-			console.log("Params are : " +username + " "+password);
-			console.log("I came here");
-				
+
 				db_handler.getData("SELECT * FROM users WHERE ?", params,
 						function(result) {
 							if (result != []) {
