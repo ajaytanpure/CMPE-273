@@ -13,7 +13,10 @@ var express = require('express')
   ,register = require('./routes/registerRoute')
   ,seller = require('./routes/sellRoute')
   ,products = require('./routes/productsRoute')
+  ,passport = require('passport') 
   ;
+
+require('./routes/signinRoute')(passport);
 
 var app = express();
 
@@ -27,6 +30,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(session({secret:"asdasdasdasd", resave:false, saveUninitialized:true}, {cookie:{path: '/', maxAge:10*10*1000}}));
 app.use(app.router);
+app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -36,8 +40,22 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.post('/signin', signin.signin);
-app.post('/updateLogin', signin.updateLogin);
+
+app.post('/signin', function(req, res){
+	passport.authenticate('signin', function(err, user){
+		if(user){
+			req.session.username = user[0].email;
+			res.send({'status':'success'});
+		}
+		else{
+			res.send({'status':'fail'});
+		}
+		
+		console.log("Session started in Passport");
+	})(req, res);
+});
+
+app.post('/updateLogin', routes.updateLogin);
 app.post('/register', register.register);
 app.post('/sessionActive', routes.sessionActive);
 app.post('/sessionKill', routes.sessionKill);

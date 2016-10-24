@@ -180,6 +180,35 @@ exports.bidIt = function(req, res){
 	})
 }
 
+
+exports.updateLogin = function(req, res) {
+
+	console.log('------------------ I came here for time');
+	var params = {
+		email : req.body['username']
+	};
+	db_handler.getData("UPDATE users set lastLogin = NOW() WHERE ?", params,
+			function(result) {
+				if (result != []) {
+					try {
+						console.log("Updated login time");
+					} catch (e) {
+						console.log("unexpected exception occurred" + e);
+						res.send({
+							'status' : 'fail'
+						});
+					}
+				}
+				res.send({
+					'status' : 'fail'
+				});
+			})
+
+}
+
+
+
+
 setInterval(function(){
 	db_handler.getData("select * from products where timeAdded <= (DATE_SUB(NOW(), INTERVAL 4 DAY)) and quantity > 0 and highestBid > 0 limit 1", {}, function(result) {
 		if(result.length < 0){
