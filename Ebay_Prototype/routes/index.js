@@ -1,6 +1,8 @@
 var db_handler = require('./db_handler');
 var myLogger = require('./logger');
 
+var mongo = require('./mongo');
+
 myLogger.logger.info("This simple log written by another file");
 
 
@@ -30,46 +32,92 @@ exports.sessionKill = function(req, res) {
 	});
 };
 
-exports.getUserId = function(req,res){
-	var params = {'email' : req.session.username};
-	
-	db_handler.getData("SELECT id FROM users where ? limit 1",params, function(result){
-		try{
-			console.log(result);
-			if(result != []){
-				res.send({'status' :true, 'data':result});
-			}
-			else{
-				res.send({'status' : false})
-			}
-		}catch(err){
-			console.log("Exception occurred while getting the categories");
-			conso.log(err);
-			res.send({'status' : false});
-		}
-	})	
-}; 
 
+//==============================
+
+
+exports.getUserId = function(req, res){
+
+	var params = {'email' : req.session.username};
+	collection = mongo.db.collection("users");
+
+	collection.findOne(params, function(err, result){
+		console.lo
+		if(result){
+			res.send({'status':true, 'data':[result]});
+		}else{
+			res.send({'status':false});
+		}
+	})
+
+
+}
+
+
+// exports.getUserId = function(req,res){
+// 	var params = {'email' : req.session.username};
+	
+// 	db_handler.getData("SELECT id FROM users where ? limit 1",params, function(result){
+// 		try{
+// 			console.log(result);
+// 			if(result != []){
+// 				res.send({'status' :true, 'data':result});
+// 			}
+// 			else{
+// 				res.send({'status' : false})
+// 			}
+// 		}catch(err){
+// 			console.log("Exception occurred while getting the categories");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+// 	})	
+// }; 
+
+
+
+//=================================================================
 
 exports.getUserDetails = function(req, res){
-	var params = {'email' : req.session.username};
+	var params = {'email':req.session.username};
+
+	collection = mongo.db.collection("users");
+
+	collection.findOne(params, function(err, result){
+		if(result){
+			res.send({'status':true, 'data':[result]});
+		}else{
+			res.send({'status':false});
+		}
+	})
+}
+
+
+
+
+
+// exports.getUserDetails = function(req, res){
+// 	var params = {'email' : req.session.username};
 	
-	db_handler.getData("SELECT * FROM users where ?", params, function(result){
-		try{
-			console.log(result);
-			if(result != []){
-				res.send({'status' :true, 'data':result});
-			}
-			else{
-				res.send({'status' : false})
-			}
-		}catch(err){
-			console.log("Exception occurred while getting the categories");
-			conso.log(err);
-			res.send({'status' : false});
-		}		
-	});	
-};
+// 	db_handler.getData("SELECT * FROM users where ?", params, function(result){
+// 		try{
+// 			console.log(result);
+// 			if(result != []){
+// 				res.send({'status' :true, 'data':result});
+// 			}
+// 			else{
+// 				res.send({'status' : false})
+// 			}
+// 		}catch(err){
+// 			console.log("Exception occurred while getting the categories");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}		
+// 	});	
+// };
+
+
+
 
 
 exports.viewBuyHistory = function(req, res){

@@ -31,7 +31,7 @@ angular
 								.then(
 										function(res) {
 											if (res.data['status'] == true) {
-												$rootScope.guestUserId = res.data['data'][0]['id']
+												$rootScope.guestUserId = res.data['data'][0]['_id']
 											} else {
 												alert("Internal server error occurred. Please visit again later");
 											}

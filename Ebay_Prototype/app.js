@@ -13,12 +13,15 @@ var express = require('express')
   ,register = require('./routes/registerRoute')
   ,seller = require('./routes/sellRoute')
   ,products = require('./routes/productsRoute')
-  ,passport = require('passport') 
+  ,passport = require('passport')
+  ,mongoStore = require('connect-mongo')(session)
+  ,mongo = require('./routes/mongo')
   ;
 
 require('./routes/signinRoute')(passport);
 
 var app = express();
+var mongoSessionConnectURL = "mongodb://localhost:27017/testEbay";
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -28,7 +31,21 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(session({secret:"asdasdasdasd", resave:false, saveUninitialized:true}, {cookie:{path: '/', maxAge:10*10*1000}}));
+
+
+app.use(session({
+  secret: 'secret dont tell anyone shhh',
+  resave: false,  //don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  duration: 30 * 60 * 1000,    
+  activeDuration: 5 * 60 * 1000,
+  store: new mongoStore({
+    url: mongoSessionConnectURL
+  })
+}));
+
+
+
 app.use(app.router);
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,21 +55,27 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.post('/signin', function(req, res){
-	passport.authenticate('signin', function(err, user){
-		if(user){
-			req.session.username = user[0].email;
-			res.send({'status':'success'});
-		}
-		else{
-			res.send({'status':'fail'});
-		}
-		
-		console.log("Session started in Passport");
-	})(req, res);
+  console.log(req.body);
+  passport.authenticate('signin', function(err, user){
+    if(user){
+      console.log("-----------------------------------------------------------");
+      console.log(user['email']);
+      req.session.username = user['email'];
+      console.log(req.session.username);
+      console.log('Before sending');
+      res.send({'status':'success'});
+    }
+    else{
+      res.send({'status':'fail'});
+    }
+    
+    console.log("Session started in Passport");
+  })(req, res);
 });
 
 app.post('/updateLogin', routes.updateLogin);
@@ -76,6 +99,10 @@ app.post('/updateLocation', routes.updateLocation);
 app.post('/bidIt', routes.bidIt);
 app.post('/mapEvents', products.mapEvents);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+//connect to the mongo collection session and then createServer
+mongo.connect(function(){
+  console.log('Connected to mongo at: ' + mongoSessionConnectURL);
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });  
 });
