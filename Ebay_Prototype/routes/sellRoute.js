@@ -57,6 +57,7 @@ exports.insertProduct = function(req, res){
 	delete params['user_id'];
 	collectionUsers.findOne({'_id':user_id}, function(err, result){		
 		params['user_id'] = result;
+		params['timeAdded'] = (new Date()).toString();
 		collectionProducts.insert(params, function(err, resultInsert){
 			console.log(resultInsert);
 			if(resultInsert['result']['ok'] ==  1){
