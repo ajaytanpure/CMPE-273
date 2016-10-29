@@ -38,7 +38,8 @@ angular.module('homePageApp').controller('payController',function($scope, $http,
 	
 	
 	$scope.updatecheckOut = function(data){
-		
+		$log.info('whats happening');
+		$log.info(data);
 		$http({
 			method: "POST",
 			url	 :  "/updateUserBuy",
@@ -75,12 +76,14 @@ angular.module('homePageApp').controller('payController',function($scope, $http,
 			data : {}
 		}).then(function(res) {
 			if (res.data['status'] == true) {
-				$rootScope.guestUserId = res.data['data'][0]['id'];
+				$log.info(res.data['data'][0]['_id']);
+				$rootScope.guestUserId = res.data['data'][0]['_id'];
 				var data = {'pair' :[]}
 				for(var counter in $scope.shoppingCart['products']){
 					var temp = {'user_id':null, 'prod_id':null};
 					temp['user_id'] = $rootScope.guestUserId;
-					temp['prod_id'] = $scope.shoppingCart['products'][counter]['prod_id'];
+					temp['prod_id'] = $scope.shoppingCart['products'][counter]['_id'];
+					$log.info(temp);
 					data.pair.push(temp);
 				}
 				$scope.updatecheckOut(data);

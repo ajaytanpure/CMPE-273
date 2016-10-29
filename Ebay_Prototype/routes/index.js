@@ -2,6 +2,7 @@ var db_handler = require('./db_handler');
 var myLogger = require('./logger');
 
 var mongo = require('./mongo');
+var objectId = require('mongodb').ObjectID;
 
 myLogger.logger.info("This simple log written by another file");
 
@@ -121,95 +122,254 @@ exports.getUserDetails = function(req, res){
 
 
 exports.viewBuyHistory = function(req, res){
-	console.log(req.body);
-	var params = {'ub.user_id' : req.body['user_id']};
-	db_handler.getData("SELECT * FROM products p JOIN user_buy ub ON p.prod_id = ub.prod_id WHERE ?", params, function(result) {
-		try{
-			console.log(result);
-			if(result != []){
-				res.send({'status' :true, 'data':result});
-			}
-			else{
-				res.send({'status' : false})
-			}
-		}catch(err){
-			console.log("Exception occurred while getting the categories");
-			conso.log(err);
-			res.send({'status' : false});
-		}
-	});
-}
-	
-exports.viewSellHistory = function(req, res){
-	console.log(req.body);
-	var params = {'user_id' : req.body['user_id']};
-	db_handler.getData("SELECT * FROM products WHERE ?", params, function(result) {
-		try{
-			console.log(result);
-			if(result != []){
-				res.send({'status' :true, 'data':result});
-			}
-			else{
-				res.send({'status' : false})
-			}
-		}catch(err){
-			console.log("Exception occurred while getting the categories");
-			conso.log(err);
-			res.send({'status' : false});
-		}
-		
-	});
 
+	collection = mongo.db.collection("user_buy");
+	collectionProducts = mongo.db.collection("products");
+	user_id = new objectId(req.body['user_id']);
+
+	console.log(user_id);
+	console.log('------');
+	console.log(req.body['user_id']);
+
+	collection.find({"user_id":user_id},{"_id":0, "user_id":0}).toArray(function(err, result){
+		objectArray = [];
+		for(product in result){
+			console.log(result[product]['prod_id']);
+			objectArray.push(new objectId(result[product]['prod_id']));
+		}
+		collectionProducts.find({"_id": {$in :objectArray}}).toArray(function(err, resultProduct){
+			if(resultProduct){
+				res.send({'status':true, 'data':resultProduct})
+			}else{
+				console.log('Error occurred while geting buy history')
+				res.send({'status':false})
+			}
+		})
+	})
 }
+
+
+
+// exports.viewBuyHistory = function(req, res){
+// 	console.log(req.body);
+// 	var params = {'ub.user_id' : req.body['user_id']};
+// 	db_handler.getData("SELECT * FROM products p JOIN user_buy ub ON p.prod_id = ub.prod_id WHERE ?", params, function(result) {
+// 		try{
+// 			console.log(result);
+// 			if(result != []){
+// 				res.send({'status' :true, 'data':result});
+// 			}
+// 			else{
+// 				res.send({'status' : false})
+// 			}
+// 		}catch(err){
+// 			console.log("Exception occurred while getting the categories");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+// 	});
+// }
+
+
+
+exports.viewSellHistory = function(req, res){
+
+	collection = mongo.db.collection('products');
+	var  user_id = new objectId(req.body['user_id']);
+
+	collection.find({"user_id._id":user_id}).toArray(function(err, result){
+		if(result){
+			res.send({'status':true, 'data':result})
+		}else{
+			res.send({'status':false});
+		}
+	})
+}
+
+
+	
+// exports.viewSellHistory = function(req, res){
+// 	console.log(req.body);
+// 	var params = {'user_id' : req.body['user_id']};
+// 	db_handler.getData("SELECT * FROM products WHERE ?", params, function(result) {
+// 		try{
+// 			console.log(result);
+// 			if(result != []){
+// 				res.send({'status' :true, 'data':result});
+// 			}
+// 			else{
+// 				res.send({'status' : false})
+// 			}
+// 		}catch(err){
+// 			console.log("Exception occurred while getting the categories");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+		
+// 	});
+
+// }
+
+
 
 exports.updateMobile = function(req, res){
-	console.log(req.body);
-	var params = [{'mobile':req.body['mobile']},{'email' : req.body['email']}];
-	console.log(params);
-	
-	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
-		try{
-			res.send({'status' :true});
-		}catch(err){
-			console.log("Exception occurred while updating mobile");
-			conso.log(err);
-			res.send({'status' : false});
+
+	collection = mongo.db.collection('users');
+
+	collection.update({"email":req.body['email']},{$set:{"mobile" : req.body['mobile']}}, function(err, result){
+		if(result['result']['ok'] ==  1){
+			console.log('Updated mobile successfully');
+			res.send({'status':true});
+		}else{
+			console.log('Error occurred while updating the mobile number');
+			res.send({'status':false});
 		}
 	});
 }
+
+
+
+// exports.updateMobile = function(req, res){
+// 	console.log(req.body);
+// 	var params = [{'mobile':req.body['mobile']},{'email' : req.body['email']}];
+// 	console.log(params);
+	
+// 	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
+// 		try{
+// 			res.send({'status' :true});
+// 		}catch(err){
+// 			console.log("Exception occurred while updating mobile");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+// 	});
+// }	
 
 
 exports.updateBirthdate = function(req, res){
-	console.log(req.body);
-	var params = [{'birthdate':req.body['birthdate']},{'email' : req.body['email']}];
-	console.log(params);
+
+	collection = mongo.db.collection('users');
+
+	collection.update({"email":req.body['email']}, {$set : {"birthdate" : req.body['birthdate']}}, function(err, result){
+		if(result['result']['ok'] == 1){
+			console.log('Updated birthdate successfully');
+			res.send({'status':true});
+		}else{
+			console.log('Error occurred while updating the birthdate');
+			res.send({'status':false});
+		}
+	} )
+}
+
+
+// exports.updateBirthdate = function(req, res){
+// 	console.log(req.body);
+// 	var params = [{'birthdate':req.body['birthdate']},{'email' : req.body['email']}];
+// 	console.log(params);
 	
-	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
-		try{
-			res.send({'status' :true});
-		}catch(err){
-			console.log("Exception occurred while updating birthdate");
-			conso.log(err);
+// 	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
+// 		try{
+// 			res.send({'status' :true});
+// 		}catch(err){
+// 			console.log("Exception occurred while updating birthdate");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+// 	});
+// }
+
+
+
+
+exports.updateLocation = function(req, res){
+
+	collection = mongo.db.collection('users');
+	collection.update({"email":req.body['email']}, {$set : {"location":req.body['location']}}, function(err, result){
+		if(result['result']['ok'] == 1){
+			console.log('updated location successfully');
+			res.send({'status':true});
+		}else{
+			console.log('error occurred while updating the location of the user');
+			res.send({'status':false});
+		}
+	});
+}
+
+
+
+// exports.updateLocation = function(req, res){
+// 	console.log(req.body);
+// 	var params = [{'location':req.body['location']},{'email' : req.body['email']}];
+// 	console.log(params);
+	
+// 	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
+// 		try{
+// 			res.send({'status' :true});
+// 		}catch(err){
+// 			console.log("Exception occurred while updating location");
+// 			conso.log(err);
+// 			res.send({'status' : false});
+// 		}
+// 	});
+// }
+
+
+
+
+exports.updateLogin = function(req, res){
+
+	collection = mongo.db.collection('users');
+	console.log(req.body);
+	collection.update({"email" : req.body['username']}, {$set : {"lastLogin" : (new Date()).toString()}}, function(err, result){
+		console.log(err);
+		if(result['result']['ok'] == 1){
+			console.log('Updated last login time of the user');
+			res.send({'status':true});
+		}else{
 			res.send({'status' : false});
 		}
 	});
 }
 
-exports.updateLocation = function(req, res){
-	console.log(req.body);
-	var params = [{'location':req.body['location']},{'email' : req.body['email']}];
-	console.log(params);
-	
-	db_handler.getData("UPDATE users SET ? WHERE ?", params, function(result){
-		try{
-			res.send({'status' :true});
-		}catch(err){
-			console.log("Exception occurred while updating location");
-			conso.log(err);
-			res.send({'status' : false});
-		}
-	});
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.updateLogin = function(req, res) {
+
+// 	console.log('------------------ I came here for time');
+// 	var params = {
+// 		email : req.body['username']
+// 	};
+// 	db_handler.getData("UPDATE users set lastLogin = NOW() WHERE ?", params,
+// 			function(result) {
+// 				if (result != []) {
+// 					try {
+// 						console.log("Updated login time");
+// 					} catch (e) {
+// 						console.log("unexpected exception occurred" + e);
+// 						res.send({
+// 							'status' : 'fail'
+// 						});
+// 					}
+// 				}
+// 				res.send({
+// 					'status' : 'fail'
+// 				});
+// 			})
+
+// }
+
 
 exports.bidIt = function(req, res){
 	var params = req.body
@@ -227,34 +387,6 @@ exports.bidIt = function(req, res){
 		res.send({'status': true});
 	})
 }
-
-
-exports.updateLogin = function(req, res) {
-
-	console.log('------------------ I came here for time');
-	var params = {
-		email : req.body['username']
-	};
-	db_handler.getData("UPDATE users set lastLogin = NOW() WHERE ?", params,
-			function(result) {
-				if (result != []) {
-					try {
-						console.log("Updated login time");
-					} catch (e) {
-						console.log("unexpected exception occurred" + e);
-						res.send({
-							'status' : 'fail'
-						});
-					}
-				}
-				res.send({
-					'status' : 'fail'
-				});
-			})
-
-}
-
-
 
 
 setInterval(function(){
