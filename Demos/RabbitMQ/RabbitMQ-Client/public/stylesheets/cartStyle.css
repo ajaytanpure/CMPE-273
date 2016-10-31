@@ -1,0 +1,28 @@
+#outer {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#name{
+	font: 20px arial, sans-serif;
+}
+
+#desc{
+	font: 15px arial, sans-serif;
+}
+
+#quantityMessage{
+	font: 10px arial, sans-serif;
+}
+
+#pricetag{
+	font: 25px arial, sans-serif;
+}
+
+#price{
+	font: 30px arial, sans-serif;
+}
+
+#total{
+	font: 30px arial, sans-serif;
+}

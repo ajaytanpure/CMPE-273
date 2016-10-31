@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/stylesheets/registerStyle.css">
+
+
+
+
+<div ng-app="homePageApp" ng-controller="homeShowController">
+
+	<div ng-show="users">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<table class="table table-hover">
+				<tr class="info">
+					<td><strong>Username</strong></td>
+					<td>{{Details.username}}</td>
+				</tr>
+				<tr class="info">
+					<td><strong>First Name </strong></td>
+					<td>{{Details.firstName}}</td>
+				</tr>
+				<tr class="info">
+					<td><strong>Last Name</strong></td>
+					<td>{{Details.lastName}}</td>
+				</tr>
+				<tr class="info">
+					<td><strong>Mobile</strong></td>
+					<td>{{Details.mobile}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	</div>
+</div>
+

@@ -1,0 +1,29 @@
+#signinButton{
+	width : 100%;
+	font-size: 25px;
+}
+#registerButton{
+	width : 100%;
+	font-size: 25px;
+}
+
+#buttons{
+	width : 100%
+}
+
+.buttonDiv:HOVER{
+	background-color: #CCCCCC;
+}
+
+#outline{
+	border : 1px solid;
+	border-radius : 4px;
+}
+#inneroutline{
+	padding : 20px;
+}
+
+#is-active{
+	background-color: rgb(28,153,218);
+}
+
