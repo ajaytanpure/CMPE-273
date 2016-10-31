@@ -60,7 +60,7 @@ exports.getProducts = function(req, res){
 
 
 exports.getProduct = function(req, res){
-	var params = re.body;
+	var params = req.body;
 
 	collection = mongo.db.collection("products");
 	prod_id = new objectId(params['prod_id']);
@@ -120,6 +120,7 @@ exports.updateUserBuy = function(req, res){
 			if(result){
 				console.log("Alo ithe");
 				collectionProducts.update({'_id':prod_id},{$inc:{"quantity" : -1, "quantitySold" : 1}}, function(err, resultUpdate){
+					req.session.usercart = null;
 					res.send({'status':true});
 					console.log(err);
 				})
