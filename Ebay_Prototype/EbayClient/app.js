@@ -63,7 +63,6 @@ app.post('/signin', function(req, res){
   console.log(req.body);
   passport.authenticate('signin', function(err, user){
     if(user){
-      console.log("-----------------------------------------------------------");
       console.log(user['email']);
       req.session.username = user['email'];
       console.log(req.session.username);

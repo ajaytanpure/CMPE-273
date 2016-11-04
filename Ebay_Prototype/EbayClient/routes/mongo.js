@@ -8,8 +8,6 @@ var mongoUrl = "mongodb://localhost:27017/testEbay";
  * Connects to the MongoDB Database with the provided URL
  */
 
-
-
 var setVariable = function(){
     exports.db = db;
 }
