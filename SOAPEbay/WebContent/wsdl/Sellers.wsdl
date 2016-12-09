@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ebay.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ebay.com" xmlns:intf="http://ebay.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ebay.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="loadCategory">
+    <complexType/>
+   </element>
+   <element name="loadCategoryResponse">
+    <complexType/>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="loadCategoryResponse">
+
+      <wsdl:part element="impl:loadCategoryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loadCategoryRequest">
+
+      <wsdl:part element="impl:loadCategory" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Sellers">
+
+      <wsdl:operation name="loadCategory">
+
+         <wsdl:input message="impl:loadCategoryRequest" name="loadCategoryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:loadCategoryResponse" name="loadCategoryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="SellersSoapBinding" type="impl:Sellers">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="loadCategory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="loadCategoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="loadCategoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="SellersService">
+
+      <wsdl:port binding="impl:SellersSoapBinding" name="Sellers">
+
+         <wsdlsoap:address location="http://localhost:8080/SOAPEbay/services/Sellers"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

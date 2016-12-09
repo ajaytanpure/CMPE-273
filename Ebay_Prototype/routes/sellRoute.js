@@ -1,47 +1,54 @@
 var db_handler = require('./db_handler');
 
+
+var soap = require('soap');
+var baseURL = "http://localhost:8080/SOAPEbay/services";
+
+var option = {
+	ignoredNamespaces : true	
+};
+
+var url = baseURL+"/Seller?wsdl";
+
+
+
 exports.loadCategory = function(req, res) {
-	db_handler.getData("SELECT * FROM category", {}, function(result) {
-		try {
-			if (result != []) {
+
+	var params = {};
+
+	soap.createClient(url,option, function(err, client) {
+		console.log(err)
+		client.loadCategory(params, function(err, result1) {
+			if(!err){
 				res.send({
 					'status' : true,
 					'data' : result
 				});
-			} else {
+			}else{
 				res.send({
 					'status' : false
-				})
+				});
 			}
-		} catch (err) {
-			console.log("Exception occurred while getting the categories");
-			conso.log(err);
-			res.send({
-				'status' : false
-			});
-		}
-
-	})
+		});
+	});
 };
 
 exports.insertProduct = function(req, res) {
 	var params = req.body;
-	db_handler.getData("INSERT INTO products SET ?", params, function(result) {
-		try {
-			if (result != []) {
-				console.log("Product added")
+	
+		soap.createClient(url,option, function(err, client) {
+		console.log(err)
+		client.insertProduct(params, function(err, result1) {
+			if(!err){
 				res.send({
-					'status' : true
-				})
-			} else {
+					'status' : true,
+					'data' : result
+				});
+			}else{
 				res.send({
 					'status' : false
-				})
+				});
 			}
-		} catch (err) {
-			res.send({
-				'status' : false
-			})
-		}
-	})
+		});
+	});
 };
