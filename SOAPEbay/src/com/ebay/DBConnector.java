@@ -6,6 +6,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.ConnectionPoolDataSource;
+import javax.sql.PooledConnection;
 
 public class DBConnector {
 
@@ -19,8 +20,8 @@ public class DBConnector {
 		try {
 			Context ctx = new InitialContext();
 			ConnectionPoolDataSource cpds = (ConnectionPoolDataSource)ctx.lookup("");
-			((Object) cpds).setDatabaseName("StartTest"); 
-            ((Object) cpds).setUserIF("root");
+			cpds.setDatabaseName("StartTest"); 
+            cpds.setUserIF("root");
             PooledConnection pc = cpds.getPooledConnection(); 
             Connection conn = pc.getConnection(); 
 		} catch (NamingException e) {
